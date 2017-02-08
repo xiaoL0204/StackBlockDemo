@@ -32,6 +32,24 @@ typedef void (^blk_t) (void);
     id obj = [self getBlockArray];
     blk_t blk = (blk_t)[obj objectAtIndex:0];
     blk();
+    
+    
+    
+    //Block截获对象，对象超出变量的作用域而存在。
+    id array = [NSMutableArray array];
+    void (^blk_t2) (id obj) = [^(id obj){
+        [array addObject:obj];
+        
+        NSLog(@"array count = %@,obj:%@",@([array count]),obj);
+        
+    } copy];
+    
+    
+    blk_t2([[NSObject alloc] init]);
+    blk_t2([[NSObject alloc] init]);
+    blk_t2([[NSObject alloc] init]);
+    
+    NSLog(@"array:%@",array);
 }
 
 - (void)didReceiveMemoryWarning {
